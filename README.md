@@ -51,3 +51,29 @@ and lpep_dropoff_datetime between '2019-10-01' and '2019-11-01'
 group by group_trip_distance
 ;
 ```
+
+- Question 4
+```
+select * from public.nyc_table
+order by trip_distance DESC
+limit 1;
+```
+
+- Question 5
+```
+select t."Zone",sum(total_amount) as total from public.nyc_table n
+join public.zones_taxi t on t."LocationID"=n."PULocationID"
+where lpep_pickup_datetime between '2019-10-18' and '2019-10-19'
+group by t."Zone"
+having sum(total_amount)>=13000
+order by total DESC;
+```
+
+- Question 6
+```
+select t."Zone", n."tip_amount",lpep_pickup_datetime from public.nyc_table n
+join public.zones_taxi t on t."LocationID"=n."PULocationID"
+where t."Zone"='East Harlem North'
+and lpep_pickup_datetime>= '2019-10-01' and lpep_pickup_datetime<'2019-11-01'
+order by n."tip_amount" DESC
+```
