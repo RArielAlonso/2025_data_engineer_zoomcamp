@@ -39,16 +39,17 @@ docker run -it --rm --network nt-nyc -v /tmp:/tmp ingestion
 
 - Question 3
 ```
-select case when trip_distance<=1 then 'Up to 1 mile'
-			when trip_distance>1 and trip_distance<=3 then '1-3'
-			when trip_distance>3 and trip_distance<=7 then '3-7'
-			when trip_distance>7 and trip_distance<=10 then '7-10'
-			else '>10' end group_trip_distance,
+select case when trip_distance<=1 then '1- Up to 1 mile'
+			when trip_distance>1 and trip_distance<=3 then '2 - 1-3 miles'
+			when trip_distance>3 and trip_distance<=7 then '3 - 3-7 miles'
+			when trip_distance>7 and trip_distance<=10 then '4 - 7-10 miles'
+			else '5 - >10' end group_trip_distance,
 			count(trip_distance)
 from public.nyc_table
-where lpep_pickup_datetime between '2019-10-01' and '2019-11-01'
-and lpep_dropoff_datetime between '2019-10-01' and '2019-11-01'
+where lpep_pickup_datetime >= '2019-10-01' 
+and lpep_dropoff_datetime < '2019-11-01'
 group by group_trip_distance
+order by group_trip_distance ASC
 ;
 ```
 
