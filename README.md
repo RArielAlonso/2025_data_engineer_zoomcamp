@@ -55,7 +55,7 @@ order by group_trip_distance ASC
 
 - Question 4
 ```
-select * from public.nyc_table
+select date(lpep_pickup_datetime),trip_distance from public.nyc_table
 order by trip_distance DESC
 limit 1;
 ```
@@ -72,9 +72,11 @@ order by total DESC;
 
 - Question 6
 ```
-select t."Zone", n."tip_amount",lpep_pickup_datetime from public.nyc_table n
+select d."Zone" as "Dropoff Location",t."Zone", n."tip_amount",lpep_pickup_datetime from public.nyc_table n
 join public.zones_taxi t on t."LocationID"=n."PULocationID"
+join public.zones_taxi d on d."LocationID"=n."DOLocationID"
 where t."Zone"='East Harlem North'
 and lpep_pickup_datetime>= '2019-10-01' and lpep_pickup_datetime<'2019-11-01'
 order by n."tip_amount" DESC
+limit 1;
 ```
