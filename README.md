@@ -83,6 +83,8 @@ limit 1;
 
 ## Homework 2
 
+I have used the flow of Kestra called ***zoomcamp.02_postgres_taxi*** with a local postgres database called ***database_nyc*** created by docker compose
+
 - Question 1
 
 The file size is:
