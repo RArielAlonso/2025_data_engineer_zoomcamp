@@ -80,3 +80,64 @@ and lpep_pickup_datetime>= '2019-10-01' and lpep_pickup_datetime<'2019-11-01'
 order by n."tip_amount" DESC
 limit 1;
 ```
+
+## Homework 2
+
+- Question 1
+
+The file size is:
+
+***128.3 MB***
+
+![hw2_question1](/images/hw2_question1.png)
+
+- Question 2
+
+The render name is
+
+***green_tripdata_2020-04.csv***
+
+![hw2_question2](/images/hw2_question2.png)
+
+- Question 3
+
+The number of rows for 2020 yellow data is:
+
+***24.648.499***
+
+```
+SELECT count(*)
+	FROM public.yellow_tripdata
+where filename like 'yellow_tripdata_2020%';
+```
+
+- Question 4
+
+The number of rows for 2020 green data is:
+
+***1,734,051***
+
+```
+SELECT count(*)
+	FROM public.green_tripdata
+where filename like 'green_tripdata_2020%';
+```
+
+- Question 5
+
+The number of rows for 2021 Marche Yellow data is:
+
+***1.925.152***
+
+```
+SELECT count(*)
+	FROM public.yellow_tripdata
+where filename like 'yellow_tripdata_2021-03%';
+```
+
+- Question 6
+
+![hw2_question6](/images/hw2_question6.jpg)
+
+
+https://kestra.io/docs/workflow-components/triggers/schedule-trigger
