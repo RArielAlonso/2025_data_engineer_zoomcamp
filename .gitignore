@@ -1,5 +1,11 @@
 pg-admin-data
 postgres-data
+keys/*
+yellow*
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

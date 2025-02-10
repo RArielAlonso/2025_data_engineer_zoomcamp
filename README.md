@@ -143,3 +143,92 @@ where filename like 'yellow_tripdata_2021-03%';
 
 
 https://kestra.io/docs/workflow-components/triggers/schedule-trigger
+
+
+## Homework 3
+
+#### CREATE RESOURCES WITH TERRAFORM
+- First you will need to create the service account and login with the  [***gcloud auth login***](https://cloud.google.com/docs/authentication/gcloud?hl=es-419)
+```
+terraform init
+terraform plan
+terraform apply
+```
+
+Then push the data from the urls to the buckets with this command, *you may need to install some libraries*
+```
+python load_to_gcs/to_gcs.py 
+```
+
+- Creating external tables
+
+```
+CREATE OR REPLACE EXTERNAL TABLE terrademo_dataset.yellow_taxi_2024
+OPTIONS
+(
+  format='PARQUET',
+  uris=['gs://data-engineer-zoomcamp-450513-data-lake-bucket/*.parquet']
+);
+```
+- Creating the materialized table
+```
+CREATE OR REPLACE TABLE terrademo_dataset.yellow_taxi_2024_not_parti AS
+select * from terrademo_dataset.yellow_taxi_2024;
+```
+
+- Question 1
+
+***20.332.093 records ***
+```
+select count(*) from `terrademo_dataset.yellow_taxi_2024`;
+```
+
+- Question 2
+
+***0 MB for the External Table and 155.12 MB for the Materialized Table***
+```
+select distinct PULocationID from `terrademo_dataset.yellow_taxi_2024`;
+
+select distinct PULocationID from `terrademo_dataset.yellow_taxi_2024_not_parti`;
+```
+-  Question 3
+
+***BigQuery is a columnar database, and it only scans the specific columns requested in the query. Querying two columns (PULocationID, DOLocationID) requires reading more data than querying one column (PULocationID), leading to a higher estimated number of bytes processed.***
+```
+select PULocationID,DOLocationID  from `terrademo_dataset.yellow_taxi_2024_not_parti`;
+```
+
+- Question 4
+
+***8,333 records***
+
+```
+select count(*) from `terrademo_dataset.yellow_taxi_2024_not_parti`
+where fare_amount=0;
+```
+
+- Question 5
+
+***Partition by tpep_dropoff_datetime and Cluster on VendorID***
+
+```
+CREATE OR REPLACE TABLE `terrademo_dataset.yellow_taxi_2024_parti_clust`
+PARTITION BY date(tpep_dropoff_datetime)
+CLUSTER BY VendorID
+AS
+select * from terrademo_dataset.yellow_taxi_2024;
+```
+
+- Question 6
+
+***310,24 MB***
+```
+select distinct VendorID from `terrademo_dataset.yellow_taxi_2024_not_parti`
+where tpep_dropoff_datetime between '2024-03-01' and '2024-03-15';
+```
+
+***26,84 MB***
+```
+select distinct VendorID from `terrademo_dataset.yellow_taxi_2024_parti_clust`
+where tpep_dropoff_datetime between '2024-03-01' and '2024-03-15';
+```
