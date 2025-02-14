@@ -5,7 +5,8 @@ yellow*
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup
-workshow_dlt/ny_taxi_pipeline.duckdb
+workshow_dlt/*.duckdb
+workshow_dlt/*.db
 
 
 # Byte-compiled / optimized / DLL files
